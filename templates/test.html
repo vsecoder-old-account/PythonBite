@@ -1,0 +1,230 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ test.name }} - Python Bite</title>
+  <link href="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" rel="icon" type="image/png" />
+  <script src="../../static/dist/lib/codemirror.js"></script>
+  <script src="../../static/dist/mode/python/python.js"></script>
+  <script src="../../static/dist/addon/dialog/dialog.js"></script>
+  <script src="../../static/dist/addon/search/searchcursor.js"></script>
+  <script src="../../static/dist/addon/search/search.js"></script>
+  <script src="../../static/dist/addon/hint/show-hint.js"></script>
+  <script src="../../static/dist/addon/fold/foldcode.js"></script>
+  <script src="../../static/dist/addon/fold/comment-fold.js"></script>
+  <script src="../../static/dist/addon/fold/brace-fold.js"></script>
+  <script src="../../static/dist/addon/fold/foldgutter.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+  <link rel="stylesheet" href="../../static/dist/lib/codemirror.css">
+  <link rel="stylesheet" href="../../static/dist/theme/darcula.css">
+  <link rel="stylesheet" href="../../static/dist/addon/hint/show-hint.css">
+  <link rel="stylesheet" href="../../static/dist/addon/dialog/dialog.css">
+  <link rel="stylesheet" href="../../static/dist/addon/fold/foldgutter.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+body {
+	margin-bottom: 23px;
+	white-space: normal !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.collapser {
+  padding-right: 6px;
+  padding-left: 6px;
+}
+#btn, #btn1 {
+  margin-top: 10px;
+  font-weight: bold;
+  width: 60%!important;
+  padding-left: 3rem!important;
+  padding-right: 3rem!important;
+  padding-top: 1rem!important;
+  padding-bottom: 1rem!important;
+  color: #6c757d;
+  background-color: transparent;
+  background-image: none;
+  border-color: #879097;
+  border-radius: .25rem;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 200px;
+  display: inline-block;
+}
+.container {
+  margin-right: 5px;
+  margin-left: 5px;
+  text-align: center;
+}
+h1 {
+  margin-top: 50px;
+}
+.header {
+  text-align: end;
+}
+.text {
+  text-align: left;
+}
+button.like {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  line-height: 50px;
+  border-radius: 50%;
+  color: #009688;
+  background-color: rgba(38, 166, 154, 0.3);
+  border-color: #009688;
+  border-width: 1px;
+  font-size: 15px;
+}
+
+button.dislike {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto;
+  line-height: 50px;
+  border-radius: 50%;
+  color: #ff5252;
+  background-color: rgba(255, 138, 128, 0.3);
+  border-color: #ff5252;
+  border-width: 1px;
+  font-size: 15px;
+}
+
+#testcase {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 200px;
+  max-height: 300px;
+  padding: .375rem .75rem;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+}
+</style>
+<div class="header">
+  {% if current_user.is_authenticated %}
+    <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+  {% else %}
+    <a href="/login">Login</a>
+  {% endif %}
+</div>
+<div class="container">
+  <h1>{{ test.name }}</h1>
+  <button class="like">
+  	<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ test.likes }}
+  </button>
+
+  <button class="dislike">
+  	<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ test.dislikes }}
+  </button>
+  <div class="text">
+    <p id="thistext">{{ test.text }}</p>
+  </div>
+</div>
+<div class="ide">
+  <textarea id="pycode">{{ test.startcode }}</textarea>
+  <p>Buttons: </p>
+  <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
+  <button id="btn1" onclick="submit()">Submit code</button><br>
+  <p>Test case: </p>
+  <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
+  <p id="result"></p>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script>
+  var converter = new showdown.Converter();
+  var ht = converter.makeHtml(`{{ test.text }}`);
+  document.getElementById('thistext').innerHTML = ht;
+  console.log(ht)
+  var input = `{{ test.input }}`;
+  var output = `{{ test.output }}`;
+  var usen = `{{ test.use }}`;
+  var use = `{{ test.use }}`;
+  use = use.replace(/&#39;/gi, '"')
+  use = use.replace(/&#34;/gi, '\'')
+  var editor = CodeMirror.fromTextArea(document.getElementById('pycode'), {
+    mode: {
+      name: "python",
+      version: 3,
+      singleLineStringErrors: false
+    },
+    lineNumbers: true, 
+    theme: 'darcula',
+    foldGutter: true,
+    matchBrackets: true,
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+    extraKeys: {
+      "Ctrl-Space": "autocomplete", 
+      "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }}
+  });
+  
+  const start = function() {
+    use = $("#testcase")[0].value;
+    $("#btn")[0].value = '. . .'
+    $.ajax({
+      url: '/api',
+      type: 'POST',
+      data: {
+        code: editor.getValue() + '\n' + use,
+        token: 'a31CcmQ3-q5xCfjpKkWibiHLPz0'
+      },
+      dataType: "json",
+      success: function(data) {
+        if (data.result) {
+          result = data.result
+          result = result.replace(/\\n/giu, '<br>')
+          result = result.replace(/\\r/giu, '')
+          result = result.replace(/\\/giu, '')
+          time = data.runtime
+          $("#result").html('Result: ' + result + '<br>Run time: '  + time + 's<br>Memory: ' + data.memory + 'MB');
+        } else if (data.status) {
+          alert(data.status); 
+        } else {
+          alert('Что-то пошло не так');
+        }
+      }
+    });
+    $("#btn")[0].value = 'Run code'
+  }
+  const submit = function () {
+    use = $("#testcase")[0].value;
+    $("#btn1")[0].value = '. . .'
+    $.ajax({
+      url: '/api',
+      type: 'POST',
+      data: {
+        code: editor.getValue() + '\n' + usen,
+        token: 'a31CcmQ3-q5xCfjpKkWibiHLPz0'
+      },
+      dataType: "json",
+      success: function(data) {
+        if (data.result) {
+          result = data.result
+          result = result.replace(/\\n/giu, '')
+          result = result.replace(/\\r/giu, '')
+          time = data.runtime
+          if (result == output) {
+            $("#result").html('Input: ' + input + '<br>Output: ' + result + '<br>Memory: ' + data.memory + 'MB' + '<br>Success!!!');
+          } else {
+            $("#result").html('Input: ' + input + '<br>Output: ' + result + '<br>Need: ' + output + '<br>Memory: ' + data.memory + 'MB');
+          }
+        } else if (data.status) {
+          alert(data.status); 
+        } else {
+          alert('Что-то пошло не так');
+        }
+      }
+    });
+    $("#btn1")[0].value = 'Submit code'
+  }
+</script>
+</body>
+</html>

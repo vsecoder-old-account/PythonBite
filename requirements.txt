@@ -1,0 +1,4 @@
+flask
+flask_login
+sqlalchemy
+memory_profiler

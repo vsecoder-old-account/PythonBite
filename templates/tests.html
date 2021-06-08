@@ -1,0 +1,304 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Bite</title>
+  <link href="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" rel="icon" type="image/png" />
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+body {
+	margin-bottom: 23px;
+	white-space: normal !important;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0px;
+	margin: 0px 0px 0px 26px;
+}
+
+li {
+	position: relative;
+}
+
+.hoverable {
+	transition: background-color .2s ease-out 0s;
+	-webkit-transition: background-color .2s ease-out 0s;
+	display: inline-block;
+}
+
+.hovered {
+	transition-delay: .2s;
+	-webkit-transition-delay: .2s;
+}
+
+.selected {
+	outline-style: solid;
+	outline-width: 1px;
+	outline-style: dotted;
+}
+
+.collapsed>.collapsible {
+	display: none;
+}
+
+.ellipsis {
+	display: none;
+}
+
+.collapsed>.ellipsis {
+	display: inherit;
+}
+
+.status {
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	min-width: 628px;
+	border-color: #c2c2c2;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-style: solid;
+	border-top-right-radius: 4px;
+	height: 16px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-right: 7px;
+	padding-left: 4px;
+	font-family: sans-serif;
+	font-size: 12px;	
+	opacity: 0;
+	background-color: #d2d2f6;
+	color: #696969;
+	transition: opacity .2s ease-out;	
+	-webkit-transition: opacity .2s ease-out;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.status:not(:empty ) {
+	opacity: 1;
+}
+
+.toolbox {
+	font-family: sans-serif;
+	font-size: 13px;
+	opacity: .25;
+	background-color: #d2d2f6;
+	position: fixed;
+	right: 0px;
+	top: 0px;
+	border-color: #c2c2c2;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-style: solid;
+	border-bottom-left-radius: 4px;
+	padding-bottom: 3px;
+	transition: opacity .2s ease-out;
+	-webkit-transition: opacity .2s ease-out;
+	cursor: default;
+	user-select: none;
+	-webkit-user-select: none;
+	padding-left: 2px;
+}
+
+.toolbox:hover {
+	opacity: 1;
+}
+
+.toolbox>* {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.toolbox>a {
+	padding-left: 5px;
+}
+
+.toolbox>img {
+	height: 14px;
+	vertical-align: bottom;
+	cursor: pointer;
+}
+body {
+  white-space: pre;
+  font-family: monospace;
+}
+
+.property {
+  font-weight: bold;
+}
+
+.type-null {
+  color: gray;
+}
+
+.type-boolean {
+  color: firebrick;
+}
+
+.type-number {
+  color: blue;
+}
+
+.type-string {
+  color: green;
+}
+
+.callback-function {
+  color: gray;
+}
+
+.collapser:after {
+  content: "";
+}
+
+.collapsed > .collapser:after {
+  content: "+";
+}
+
+.ellipsis:after {
+  content: " … ";
+}
+
+.collapsible {
+  margin-left: 2em;
+}
+
+.hoverable {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 2px;
+}
+
+.hovered {
+  background-color: rgba(235, 238, 249, 1);  
+}
+
+.collapser {
+  padding-right: 6px;
+  padding-left: 6px;
+}
+textarea {
+  overflow: auto;
+    resize: vertical; 
+
+  width: 60%!important;
+  display: block;
+  width: 100%;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  margin-right: auto;
+  margin-left: auto;
+}
+button {
+  margin-top: 10px;
+  font-weight: bold;
+  width: 60%!important;
+  padding-left: 3rem!important;
+  padding-right: 3rem!important;
+  padding-top: 1rem!important;
+  padding-bottom: 1rem!important;
+  color: #6c757d;
+  background-color: transparent;
+  background-image: none;
+  border-color: #879097;
+  border-radius: .25rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+#json {
+  margin-top: 50px;
+  display: inline-block;
+  text-align: left;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 12px;
+  border: 1px solid #f1f2f3;
+  border-left: 2px solid #585858;
+  line-height: 22.1px;
+}
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 540px;
+  text-align: center;
+}
+.text {
+  margin-top: 100px;
+}
+h1 {
+  margin-top: 50px;
+}
+.header {
+  text-align: end;
+}
+</style>
+<div class="header">
+  {% if current_user.is_authenticated %}
+    <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+  {% else %}
+    <a href="/login">Login</a>
+  {% endif %}
+    <br><a href="/">Index</a>
+</div>
+<div class="container">
+  <h1 style="text-align: center;">Python Bite tests</h1>
+  <div class="text">
+    {% for el in tests %}
+      <p><a href="/test/{{ el.id }}">{{ el.name }} {{ el.likes }}+ {{ el.dislikes }}-</p></a>
+    {% endfor %}
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+<script>
+  const start = function() {
+    $("#btn")[0].value = '. . .'
+    $.ajax({
+      url: '/api',
+      type: 'POST',
+      data: {
+        code: $("#code_input")[0].value,
+        token: 'a31CcmQ3-q5xCfjpKkWibiHLPz0'
+      },
+      dataType: "json",
+      success: function(data) {
+        if (data.result) {
+          $("#code").text('"' + data.code + '"');
+          $("#result").text('"' + data.result + '"');
+          $("#status").text('"' + data.status + '"');
+          $("#time").text('"' + data.runtime + '"');
+          $("#memory").text('"' + data.memory + '"');
+        } else if (data.status) {
+          alert(data.status); 
+        } else {
+          alert('Что-то пошло не так');
+        }
+      }
+    });
+    $("#btn")[0].value = 'Python'
+  }
+</script>
+</body>
+</html>
