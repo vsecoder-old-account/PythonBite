@@ -148,8 +148,10 @@ button.dislike {
   var output = `{{ test.output }}`;
   var usen = `{{ test.use }}`;
   var use = `{{ test.use }}`;
-  use = use.replace(/&#39;/gi, '"')
-  use = use.replace(/&#34;/gi, '\'')
+  use = use.replace(/&#39;/giu, '"')
+  use = use.replace(/&#34;/giu, '\'')
+  usen = usen.replace(/&#39;/giu, '"')
+  usen = usen.replace(/&#34;/giu, '\'')
   var editor = CodeMirror.fromTextArea(document.getElementById('pycode'), {
     mode: {
       name: "python",

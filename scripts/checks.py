@@ -37,7 +37,8 @@ def create_user(id, email, token, password):
 		id=id,
 		email=email,
 		token=generate_token(),
-		hash_password=hash_password(password)
+		hash_password=hash_password(password),
+		score=0
 	)
 	session.add(user)
 	session.commit()
@@ -53,7 +54,8 @@ def get_user(id):
 					id=user.id,
 					email=user.email,
 					token=user.token,
-					hash_password=user.hash_password
+					hash_password=user.hash_password,
+                    score=user.score
 				)
 				return user_as_dict
 		else:

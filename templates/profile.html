@@ -264,23 +264,27 @@ h1 {
 <div class="container">
   <h1 style="text-align: center;">Profile</h1>
   <div id="json">
-  <!--<div class="collapser"><span class="type-string">GET</span> <span class="type-number">/api?code=print('Test API')</span></div>-->
   {
   <span class="ellipsis"></span>
   <ul class="obj collapsible">
     <li>
       <div class="hoverable">
-        <span class="property">id</span>: <span class="type-string" id="code">"{{ user.id }}"</span>,
+        <span class="property">id</span>: <span class="type-string" id="id">"{{ user.id }}"</span>,
       </div>
     </li>
     <li>
       <div class="hoverable">
-        <span class="property">email</span>: <span class="type-string" id="result">"{{ user.email }}"</span>,
+        <span class="property">email</span>: <span class="type-string" id="email">"{{ user.email }}"</span>,
       </div>
     </li>
     <li>
       <div class="hoverable">
-        <span class="property">token</span>: <span class="type-string" id="time">"{{ user.token }}"</span>
+        <span class="property">token</span>: <span class="type-string" id="token">"{{ user.token }}"</span>
+      </div>
+    </li>
+    <li>
+      <div class="hoverable">
+        <span class="property">score</span>: <span class="type-string" id="score">"{{ user.score }}"</span>
       </div>
     </li>
   </ul>

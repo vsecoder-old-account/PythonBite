@@ -11,3 +11,4 @@ class User(SqlAlchemyBase, UserMixin):
     email = sa.Column(sa.String, nullable=True)
     token = sa.Column(sa.String, nullable=True)
     hash_password = sa.Column(sa.String, nullable=True)
+    score = sa.Column(sa.String, nullable=True)
