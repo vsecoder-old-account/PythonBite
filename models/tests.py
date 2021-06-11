@@ -13,5 +13,4 @@ class Test(SqlAlchemyBase):
     input = sa.Column(sa.String, nullable=True)
     output = sa.Column(sa.String, nullable=True)
     use = sa.Column(sa.String, nullable=True)
-    likes = sa.Column(sa.Integer, nullable=True)
-    dislikes = sa.Column(sa.Integer, nullable=True)
+    complete = sa.Column(sa.String, nullable=True)
