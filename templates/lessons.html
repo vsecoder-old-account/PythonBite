@@ -2,14 +2,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Python Bite</title>
+  <title>Lessons · Python Bite</title>
   <link href="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" rel="icon" type="image/png" />
 </head>
 <body>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+* {
+  box-sizing: border-box;
+}
 body {
-	margin-bottom: 23px;
+  margin: 0;
+  padding: 0;
 	white-space: normal !important;
   font-family: 'JetBrains Mono', monospace;
   font-size: 1em;
@@ -245,60 +249,44 @@ button {
 .text {
   margin-top: 100px;
 }
-h1 {
-  margin-top: 50px;
+img {
+  width: 10%;
+  text-align: center;
 }
-.header {
+.logo {
+  padding-top: 1%;
+  height: 20%;
+  color: white;
+  background-image: repeating-linear-gradient(150deg,rgba(255,255,255,.06),rgba(255,255,255,.06) 1px,transparent 0,transparent 41px),repeating-linear-gradient(-150deg,rgba(255,255,255,.06),rgba(255,255,255,.06) 1px,transparent 0,transparent 41px);
+  background-color: #3e3e40;
+}
+.menu {
   text-align: end;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+.menu a {
+  color: #c4c4ff;
 }
 </style>
-<div class="header">
+<div class="logo">
+  <div class="menu">
+    <a href="/">Home</a>
   {% if current_user.is_authenticated %}
-    <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+    <br><a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
   {% else %}
-    <a href="/login">Login</a>
+    <br><a href="/login">Login</a>
   {% endif %}
-    <br><a href="/">Index</a>
+  </div>
+  <div style="text-align: center;"><img src="../static/img/basics.png"><h1>Lessons</h1></div>
 </div>
 <div class="container">
-  <h1 style="text-align: center;">Python Bite tests</h1>
   <div class="text">
     {% for el in tests %}
-      <p><a href="/test/{{ el.id }}">{{ el.name }} {{ el.likes }}+ {{ el.dislikes }}-</p></a>
+      <p><a href="/lesson/{{ el.id }}">{{ el.name }} {{ el.likes }}+ {{ el.dislikes }}-</p></a>
     {% endfor %}
   </div>
 </div>
-<script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-<script>
-  const start = function() {
-    $("#btn")[0].value = '. . .'
-    $.ajax({
-      url: '/api',
-      type: 'POST',
-      data: {
-        code: $("#code_input")[0].value,
-        token: 'a31CcmQ3-q5xCfjpKkWibiHLPz0'
-      },
-      dataType: "json",
-      success: function(data) {
-        if (data.result) {
-          $("#code").text('"' + data.code + '"');
-          $("#result").text('"' + data.result + '"');
-          $("#status").text('"' + data.status + '"');
-          $("#time").text('"' + data.runtime + '"');
-          $("#memory").text('"' + data.memory + '"');
-        } else if (data.status) {
-          alert(data.status); 
-        } else {
-          alert('Что-то пошло не так');
-        }
-      }
-    });
-    $("#btn")[0].value = 'Python'
-  }
-</script>
 </body>
 </html>

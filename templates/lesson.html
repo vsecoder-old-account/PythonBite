@@ -2,7 +2,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ test.name }} - Python Bite</title>
+  <title>{{ test.name }} · Python Bite</title>
   <link href="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" rel="icon" type="image/png" />
   <script src="../../static/dist/lib/codemirror.js"></script>
   <script src="../../static/dist/mode/python/python.js"></script>
@@ -14,13 +14,12 @@
   <script src="../../static/dist/addon/fold/comment-fold.js"></script>
   <script src="../../static/dist/addon/fold/brace-fold.js"></script>
   <script src="../../static/dist/addon/fold/foldgutter.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+  <script src="../../static/dist/md.js"></script>
   <link rel="stylesheet" href="../../static/dist/lib/codemirror.css">
   <link rel="stylesheet" href="../../static/dist/theme/darcula.css">
   <link rel="stylesheet" href="../../static/dist/addon/hint/show-hint.css">
   <link rel="stylesheet" href="../../static/dist/addon/dialog/dialog.css">
   <link rel="stylesheet" href="../../static/dist/addon/fold/foldgutter.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 </head>
 <body>
 <style>
@@ -37,10 +36,28 @@ body {
   padding-right: 6px;
   padding-left: 6px;
 }
+.header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 999;
+  height: 30px;
+  background-color: white;
+}
+.fullscreen {
+  background-color: rgba(1, 1, 1, 0.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 998;
+}
 #btn, #btn1 {
   margin-top: 10px;
   font-weight: bold;
-  width: 60%!important;
+  width: 48.7%!important;
   padding-left: 3rem!important;
   padding-right: 3rem!important;
   padding-top: 1rem!important;
@@ -52,16 +69,30 @@ body {
   border-radius: .25rem;
   margin-right: auto;
   margin-left: auto;
-  max-width: 200px;
+  max-width: 300px;
   display: inline-block;
 }
 .container {
-  margin-right: 5px;
-  margin-left: 5px;
-  text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 30px;
+  background-color: white;
+  width: 70%;
+  z-index: 999;
+  padding: 1em;
+}
+.ide {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 30px;
+  background-color: white;
+  width: 100%;
+  z-index: 997;
 }
 h1 {
-  margin-top: 50px;
+  font-size: 1.5em;
 }
 .header {
   text-align: end;
@@ -69,89 +100,174 @@ h1 {
 .text {
   text-align: left;
 }
-button.like {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-  color: #009688;
-  background-color: rgba(38, 166, 154, 0.3);
-  border-color: #009688;
-  border-width: 1px;
-  font-size: 15px;
-}
-
-button.dislike {
-  width: 50px;
-  height: 50px;
-  margin: 0 auto;
-  line-height: 50px;
-  border-radius: 50%;
-  color: #ff5252;
-  background-color: rgba(255, 138, 128, 0.3);
-  border-color: #ff5252;
-  border-width: 1px;
-  font-size: 15px;
-}
 
 #testcase {
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 200px;
   max-height: 300px;
   padding: .375rem .75rem;
   border: 1px solid #ced4da;
+  width: 100%;
   border-radius: .25rem;
 }
+#thistext pre {
+  padding-left: 1.5rem!important;
+  padding-right: 1.5rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+  font-weight: bold;
+  border-left: 3px solid #879097;
+}
+#thistext em {
+  font-weight: bold;
+}
+.container h1 span::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  background-image: url(https://assets.htmlacademy.ru/img/icon-check.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 50%;
+}
+.container .text {
+  height: 80%;
+  overflow: auto;
+}
+.container .go {
+  position: absolute;
+  bottom: 0;
+  background-color: black;
+  color: white;
+  padding-left: 1.5rem!important;
+  padding-right: 1.5rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+  right: 0;
+  cursor: pointer;
+}
+.container .close {
+  position: fixed;
+  top: 40px;
+  left: 74.3%;
+  color: white;
+  font-weight: bolder;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.teoria {
+  position: absolute;
+  left: 10px;
+  top: 4px;
+  text-align: left;
+  cursor: pointer;
+}
+.menu {
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  text-align: right;
+}
+#icon-theory {
+  width: 10px;
+}
+.cm-s-darcula {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 45%;
+  height: 100%;
+}
+.console {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 55%;
+  padding-left: 1.5rem!important;
+  padding-right: 1.5rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+  height: 100%;
+}
+#result {
+  height: 80%;
+  max-height: 80%;
+  overflow: auto;
+}
 </style>
+<div class="fullscreen"></div>
 <div class="header">
-  {% if current_user.is_authenticated %}
-    <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
-  {% else %}
-    <a href="/login">Login</a>
-  {% endif %}
+  <div class="teoria" onclick="open()">
+    <svg id="icon-theory" viewBox="0 0 13 12"><path d="M1.345 1H11.71M1.344 6H11.71M1.344 11h7.24" fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="square" stroke-width="2"></path></svg>
+    Теория
+  </div>
+  <div class="menu">
+    {% if current_user.is_authenticated %}
+      <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+    {% else %}
+      <a href="/login">Login</a>
+    {% endif %}
+  </div>
 </div>
 <div class="container">
-  <h1>{{ test.name }}</h1>
-  <button class="like">
-  	<i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {{ test.likes }}
-  </button>
-
-  <button class="dislike">
-  	<i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {{ test.dislikes }}
-  </button>
+  <h1>{{ test.name }} {% if test.complite %}<span></span>{% endif %}</h1>
   <div class="text">
     <p id="thistext">{{ test.text }}</p>
   </div>
+  <div class="go" onclick="close()">Начать -></div>
+  <div class="close" onclick="close()">x</div>
 </div>
 <div class="ide">
   <textarea id="pycode">{{ test.startcode }}</textarea>
-  <p>Buttons: </p>
-  <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
-  <button id="btn1" onclick="submit()">Submit code</button><br>
-  <p>Test case: </p>
-  <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
-  <p id="result"></p>
+  <div class="console">
+    <pre id="result">>>><br>>>><br>>>><br></pre>
+    
+    <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
+    <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
+    <button id="btn1" onclick="submit()">Submit code</button><br>
+  </div>
 </div>
 <script
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
 <script>
+  document.body.querySelector('.teoria').onclick = function () {
+    open()
+  }
+  document.body.querySelector('.go').onclick = function () {
+    close()
+  }
+  document.body.querySelector('.close').onclick = function () {
+    close()
+  }
+  function close() {
+    document.body.querySelector('.container').style.display = 'none';
+    document.body.querySelector('.fullscreen').style.display = 'none';
+  }
+  function open() {
+    document.body.querySelector('.container').style.display = 'block';
+    document.body.querySelector('.fullscreen').style.display = 'block';
+  }
   var converter = new showdown.Converter();
-  var ht = converter.makeHtml(`{{ test.text }}`);
+  var ht = `{{ test.text }}`;
+  ht = ht.replace(/&#39;/giu, '"');
+  ht = ht.replace(/&#34;/giu, '\'');
+  ht = converter.makeHtml(ht);
   document.getElementById('thistext').innerHTML = ht;
-  console.log(ht)
   var input = `{{ test.input }}`;
   var output = `{{ test.output }}`;
   var usen = `{{ test.use }}`;
   var use = `{{ test.use }}`;
-  use = use.replace(/&#39;/giu, '"')
-  use = use.replace(/&#34;/giu, '\'')
-  usen = usen.replace(/&#39;/giu, '"')
-  usen = usen.replace(/&#34;/giu, '\'')
+  use = use.replace(/&#39;/giu, '"');
+  use = use.replace(/&#34;/giu, '\'');
+  usen = usen.replace(/&#39;/giu, '"');
+  usen = usen.replace(/&#34;/giu, '\'');
   var editor = CodeMirror.fromTextArea(document.getElementById('pycode'), {
     mode: {
       name: "python",
@@ -186,7 +302,7 @@ button.dislike {
           result = result.replace(/\\r/giu, '')
           result = result.replace(/\\/giu, '')
           time = data.runtime
-          $("#result").html('Result: ' + result + '<br>Run time: '  + time + 's<br>Memory: ' + data.memory + 'MB');
+          $("#result").html('>>> Result: ' + result + '<br>>>> Run time: '  + time + 's<br>>>> Memory: ' + data.memory + 'MB');
         } else if (data.status) {
           alert(data.status); 
         } else {
@@ -210,13 +326,14 @@ button.dislike {
       success: function(data) {
         if (data.result) {
           result = data.result
-          result = result.replace(/\\n/giu, '')
           result = result.replace(/\\r/giu, '')
+          result = result.replace(/\\n/giu, `
+`)
           time = data.runtime
           if (result == output) {
-            $("#result").html('Input: ' + input + '<br>Output: ' + result + '<br>Memory: ' + data.memory + 'MB' + '<br>Success!!!');
+            $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Memory: ' + data.memory + 'MB' + '<br>Success!!!');
           } else {
-            $("#result").html('Input: ' + input + '<br>Output: ' + result + '<br>Need: ' + output + '<br>Memory: ' + data.memory + 'MB');
+            $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Need: ' + output + '<br> >>> Memory: ' + data.memory + 'MB');
           }
         } else if (data.status) {
           alert(data.status); 

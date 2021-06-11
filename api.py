@@ -120,15 +120,15 @@ def register():
 
 	return render_template('register.html')
 
-@app.route('/test/<id>', methods=['GET', 'POST'])
+@app.route('/lesson/<id>', methods=['GET', 'POST'])
 def test(id):
 	test = get_test(id)
-	return render_template('test.html', test=test)
+	return render_template('lesson.html', test=test)
 
-@app.route('/tests', methods=['GET', 'POST'])
+@app.route('/lessons', methods=['GET', 'POST'])
 def tests():
 	tests = get_tests()
-	return render_template('tests.html', tests=list(reversed(tests)))
+	return render_template('lessons.html', tests=list(reversed(tests)))
 
 @app.route('/logout/')
 @login_required
