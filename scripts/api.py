@@ -10,7 +10,7 @@ def code_start(code):
 		f.close()
 		print(code)
 		result = subprocess.run(
-			f'python test{num}.py'.split(), 
+			f'python test{num}.py', 
 			stdout=subprocess.PIPE, stderr=subprocess.STDOUT, 
 			shell=True, check=True, timeout=3
 		).stdout.decode('utf-8')
@@ -21,8 +21,8 @@ def code_start(code):
 			print('File remove error: ' + str(e))
 		return result
 	except subprocess.CalledProcessError as e:
-		print('Subprocess ' + str(e))
+		print('Subprocess: ' + str(e))
 		return str(e.output)
 	except Exception as e:
-		print('Exception ' + str(e))
+		print('Exception: ' + str(e))
 		return str(e)
