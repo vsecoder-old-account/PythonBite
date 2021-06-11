@@ -92,8 +92,7 @@ def get_test(id):
 					input=test.input,
 					output=test.output,
 					use=test.use,
-					likes=test.likes,
-					dislikes=test.dislikes
+					complete=test.complete
 				)
 				return test_as_dict
 		else:
@@ -109,8 +108,7 @@ def get_tests():
 		test_as_dict = Test(
 			id=test.id,
 			name=test.name,
-			likes=test.likes,
-			dislikes=test.dislikes
+            complete=test.complete
 		)
 		tests_arr.append(test_as_dict)
 	
