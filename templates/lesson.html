@@ -246,6 +246,9 @@ h1 {
   document.body.querySelector('.close').onclick = function () {
     close()
   }
+  document.body.querySelector('.fullscreen').onclick = function () {
+    close()
+  }
   function close() {
     document.body.querySelector('.container').style.display = 'none';
     document.body.querySelector('.fullscreen').style.display = 'none';
@@ -333,7 +336,7 @@ h1 {
           if (result == output) {
             $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Memory: ' + data.memory + 'MB' + '<br>Success!!!');
           } else {
-            $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Need: ' + output + '<br> >>> Memory: ' + data.memory + 'MB');
+            $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Need: ' + output + '<br>>>> Memory: ' + data.memory + 'MB');
           }
         } else if (data.status) {
           alert(data.status); 

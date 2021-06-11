@@ -50,12 +50,13 @@ def api():
 		else:
 			start_time = time.time()
 			checked = code_start(code)
+			memory = memory_usage()[0] - 30
 			stop_time = time.time() - start_time
 			if checked:
 				if checked[0] == 'b':
 					checked = checked.replace('b\'', '', 1)
 					checked = checked[:-1]
-				return jsonify({'code': code, 'result': checked, 'time': stop_time, 'status': 'Result returned'})
+				return jsonify({'code': code, 'result': checked[:-2], 'time': stop_time, 'memory': memory, 'status': 'Result returned'})
 			else:
 				return jsonify({'code': code, 'status': 'Result not returned'})
 	elif request.method == 'POST':
@@ -75,7 +76,7 @@ def api():
 				if checked[0] == 'b':
 					checked = checked.replace('b\'', '', 1)
 					checked = checked[:-1]
-				return jsonify({'code': code, 'result': checked, 'runtime': stop_time, 'memory': memory, 'status': 'Result returned'})
+				return jsonify({'code': code, 'result': checked[:-2], 'runtime': stop_time, 'memory': memory, 'status': 'Result returned'})
 			else:
 				return jsonify({'code': code, 'status': 'Result not returned'})
 	else:
