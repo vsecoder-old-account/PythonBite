@@ -92,7 +92,8 @@ def get_test(id):
 					input=test.input,
 					output=test.output,
 					use=test.use,
-					complete=test.complete
+					complete=test.complete,
+					say=test.say
 				)
 				return test_as_dict
 		else:
@@ -108,7 +109,8 @@ def get_tests():
 		test_as_dict = Test(
 			id=test.id,
 			name=test.name,
-            complete=test.complete
+            complete=test.complete,
+			say=test.say
 		)
 		tests_arr.append(test_as_dict)
 	

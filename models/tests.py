@@ -14,3 +14,4 @@ class Test(SqlAlchemyBase):
     output = sa.Column(sa.String, nullable=True)
     use = sa.Column(sa.String, nullable=True)
     complete = sa.Column(sa.String, nullable=True)
+    say = sa.Column(sa.String, nullable=True)

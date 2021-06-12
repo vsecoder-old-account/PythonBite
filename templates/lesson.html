@@ -30,6 +30,8 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1em;
   font-weight: 700;
+  background-color: white;
+  z-index: 0;
 }
 
 .collapser {
@@ -54,12 +56,13 @@ body {
   left: 0;
   z-index: 998;
 }
-#btn, #btn1 {
+#btn, #btn1, #btn2 {
+  font-family: 'JetBrains Mono', monospace;
   margin-top: 10px;
   font-weight: bold;
-  width: 48.7%!important;
-  padding-left: 3rem!important;
-  padding-right: 3rem!important;
+  width: 31.6%!important;
+  padding-left: 1rem!important;
+  padding-right: 1rem!important;
   padding-top: 1rem!important;
   padding-bottom: 1rem!important;
   color: #6c757d;
@@ -71,6 +74,10 @@ body {
   margin-left: auto;
   max-width: 300px;
   display: inline-block;
+}
+#btn2 {
+  color: white;
+  background: #000000;
 }
 .container {
   position: fixed;
@@ -128,7 +135,7 @@ h1 {
   width: 40px;
   height: 40px;
   margin-left: 10px;
-  background-image: url(https://assets.htmlacademy.ru/img/icon-check.svg);
+  background-image: url(../../static/img/icon-check.svg);
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 50%;
@@ -188,16 +195,55 @@ h1 {
   right: 0;
   bottom: 0;
   left: 55%;
-  padding-left: 1.5rem!important;
-  padding-right: 1.5rem!important;
-  padding-top: .5rem!important;
-  padding-bottom: .5rem!important;
   height: 100%;
 }
 #result {
   height: 80%;
   max-height: 80%;
   overflow: auto;
+  padding-left: 1.5rem!important;
+  padding-right: 1.5rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
+}
+.tooltip {
+  right: 130px;
+  bottom: calc(100% - 70px);
+  text-align: left;
+  white-space: normal;
+  border-width: 1px;
+  border-style: solid;
+  filter: none;
+  border-color: #d5d5d5;
+  padding: 3px;
+  border-radius: 4px;
+}
+.say {
+  display: none;
+  padding-left: 20%;
+  height: 50px;
+  background-image: url(../../static/img/icon_dino.jpg);
+  background-repeat: no-repeat;
+  background-position: 70% -1px;
+  background-size: 50px;
+  transition: bottom .2s ease-out;
+}
+.tooltip::after {
+  right: -24px;
+  bottom: 4px;
+  left: auto;
+  width: 16px;
+  height: 8px;
+  background-image: url(../../static/img/tail-light.svg);
+  border: 0;
+}
+.tools {
+  background-color: #f2f2f2;
+  border-top: 1px solid #d5d5d5;
+  padding-left: 1.5rem!important;
+  padding-right: 1.5rem!important;
+  padding-top: .5rem!important;
+  padding-bottom: .5rem!important;
 }
 </style>
 <div class="fullscreen"></div>
@@ -226,10 +272,17 @@ h1 {
   <textarea id="pycode">{{ test.startcode }}</textarea>
   <div class="console">
     <pre id="result">>>><br>>>><br>>>><br></pre>
-    
-    <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
-    <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
-    <button id="btn1" onclick="submit()">Submit code</button><br>
+    <div class="say">
+      <span class="tooltip">
+        <span class="tooltip-text">{{ test.say }}</span>
+      </span>
+    </div>
+    <div class="tools">
+      <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
+      <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
+      <button id="btn1" onclick="submit()">Submit code</button>
+      <button id="btn2" onclick="win()">-></button><br>
+    </div>
   </div>
 </div>
 <script
@@ -259,6 +312,7 @@ h1 {
   }
   var converter = new showdown.Converter();
   var ht = `{{ test.text }}`;
+  var test = false;
   ht = ht.replace(/&#39;/giu, '"');
   ht = ht.replace(/&#34;/giu, '\'');
   ht = converter.makeHtml(ht);
@@ -286,6 +340,14 @@ h1 {
       "Ctrl-Space": "autocomplete", 
       "Ctrl-Q": function(cm){ cm.foldCode(cm.getCursor()); }}
   });
+
+  const win = function () {
+    if (test) {
+      window.location.pathname = '/lesson/' + (parseInt(`{{ test.id }}`) + 1)
+    } else {
+      alert('Решите задание')
+    }
+  }
   
   const start = function() {
     use = $("#testcase")[0].value;
@@ -335,6 +397,16 @@ h1 {
           time = data.runtime
           if (result == output) {
             $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Memory: ' + data.memory + 'MB' + '<br>Success!!!');
+            document.body.querySelector('.say').style.display = 'block';
+            document.body.querySelector('#result').style.height = '74%';
+            document.body.querySelector('#btn2').style.background = '#4eb543';
+            test = true;
+          } else if (output == '*') {
+            $("#result").html('>>> Result: ' + result);
+            document.body.querySelector('.say').style.display = 'block';
+            document.body.querySelector('#result').style.height = '74%';
+            document.body.querySelector('#btn2').style.background = '#4eb543';
+            test = true;
           } else {
             $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Need: ' + output + '<br>>>> Memory: ' + data.memory + 'MB');
           }
