@@ -132,7 +132,7 @@ def test(id):
 @app.route('/lessons', methods=['GET', 'POST'])
 def tests():
 	tests = get_tests()
-	return render_template('lessons.html', tests=list(reversed(tests)))
+	return render_template('lessons.html', tests=list(tests))
 
 @app.route('/logout/')
 @login_required
