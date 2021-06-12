@@ -103,7 +103,6 @@ def get_tests():
 	session = db_session.create_session()
 	tests = session.query(Test).all()
 	tests_arr = []
-	arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 
 	for test in tests:
 		test_as_dict = Test(

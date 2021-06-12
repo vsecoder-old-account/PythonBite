@@ -224,7 +224,7 @@ h1 {
   height: 50px;
   background-image: url(../../static/img/icon_dino.jpg);
   background-repeat: no-repeat;
-  background-position: 70% -1px;
+  background-position: 5% -1px;
   background-size: 50px;
   transition: bottom .2s ease-out;
 }
@@ -394,6 +394,7 @@ h1 {
           result = result.replace(/\\r/giu, '')
           result = result.replace(/\\n/giu, `
 `)
+          result = result.replace(/\\/giu, '')
           time = data.runtime
           if (result == output) {
             $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Memory: ' + data.memory + 'MB' + '<br>Success!!!');
