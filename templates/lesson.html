@@ -238,12 +238,18 @@ h1 {
   border: 0;
 }
 .tools {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
   background-color: #f2f2f2;
   border-top: 1px solid #d5d5d5;
   padding-left: 1.5rem!important;
   padding-right: 1.5rem!important;
   padding-top: .5rem!important;
   padding-bottom: .5rem!important;
+  text-align: end;
 }
 </style>
 <div class="fullscreen"></div>
@@ -278,9 +284,9 @@ h1 {
       </span>
     </div>
     <div class="tools">
-      <textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
+      <!--<textarea id="testcase" placeholder="Test case">{{ test.use }}</textarea>
       <button id="btn" onclick="start()" title="Run code(use test case)">Run code</button>
-      <button id="btn1" onclick="submit()">Submit code</button>
+      <button id="btn1" onclick="submit()">Submit code</button>-->
       <button id="btn2" onclick="win()">-></button><br>
     </div>
   </div>
@@ -345,7 +351,7 @@ h1 {
     if (test) {
       window.location.pathname = '/lesson/' + (parseInt(`{{ test.id }}`) + 1)
     } else {
-      alert('Решите задание')
+      submit();
     }
   }
   
@@ -378,8 +384,7 @@ h1 {
     $("#btn")[0].value = 'Run code'
   }
   const submit = function () {
-    use = $("#testcase")[0].value;
-    $("#btn1")[0].value = '. . .'
+    $("#btn2")[0].value = '. . .'
     $.ajax({
       url: '/api',
       type: 'POST',
@@ -418,7 +423,7 @@ h1 {
         }
       }
     });
-    $("#btn1")[0].value = 'Submit code'
+    $("#btn2")[0].value = '->'
   }
 </script>
 </body>

@@ -38,6 +38,7 @@ def create_user(id, email, token, password):
 		email=email,
 		token=generate_token(),
 		hash_password=hash_password(password),
+		rang=0,
 		score=0
 	)
 	session.add(user)
@@ -55,7 +56,8 @@ def get_user(id):
 					email=user.email,
 					token=user.token,
 					hash_password=user.hash_password,
-                    score=user.score
+                    score=user.score,
+                    rang=0
 				)
 				return user_as_dict
 		else:
