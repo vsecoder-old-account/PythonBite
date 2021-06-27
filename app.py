@@ -1,12 +1,12 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_required, login_user, current_user, logout_user
 import os, string, random, time
-from scripts.checks import check_token, create_user, get_user, check_pass, get_test, get_tests
+from scripts.checks import check_token, create_user, get_user, check_pass, get_test, get_tests, get_forums, get_forum, commit_forum, create_forum
 from scripts.api import code_start
 from memory_profiler import memory_usage
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'api'
+app.config['SECRET_KEY'] = 'PythonBite'
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login_page'
@@ -19,11 +19,71 @@ def load_user(user_id):
 def index():
 	return render_template('index.html')
 
+@app.route("/forum", methods=['GET', 'POST'])
+def forums():
+	quests = get_forums()
+	return render_template('forums.html', quests=quests)
+
+@app.route("/t/create", methods=['GET', 'POST'])
+def create():
+	return render_template('add_forum.html')
+
+@app.route("/f/<id>", methods=['GET', 'POST'])
+def forum(id):
+	quest = get_forum(id)
+	return render_template('forum.html', quest=quest)
+
+@app.route("/t/commit", methods=['GET', 'POST'])
+def forum_com():
+	id = random.randint(1000000000, 9999999999)
+	name = '' #
+	title = ''
+	lesson = ''
+	quest = ''
+	userid = '' #
+	if request.method == 'GET':
+		name = request.values.get('name')
+		title = request.values.get('title')
+		lesson = request.values.get('lesson')
+		quest = request.values.get('quest')
+		userid = request.values.get('userid')
+	elif request.method == 'POST':
+		name = request.form.get('name')
+		title = request.form.get('title')
+		lesson = request.form.get('lesson')
+		quest = request.form.get('quest')
+		userid = request.form.get('userid')
+
+	create_forum(id, name, title, lesson, quest, '', userid)
+	return redirect(f"https://pythonbite.herokuapp.com/f/{id}", code=200)
+
+@app.route("/t/add", methods=['GET', 'POST'])
+def forum_create():
+	id = ''
+	id2 = ''
+	text = ''
+	if request.method == 'GET':
+		id = request.values.get('id')
+		id2 = request.values.get('userid')
+		text = request.values.get('answer')
+		name = request.values.get('username')
+	elif request.method == 'POST':
+		id = request.form.get('id')
+		id2 = request.values.get('userid')
+		name = request.values.get('username')
+		answer = request.form.get('answer')
+	
+	if id and id2 and text:
+		print(1)
+		commit_forum(id, id2, text, name)
+
+	return redirect(f"https://pythonbite.herokuapp.com/f/{id}", code=200)
+
 @app.route("/profile/<id>")
 @login_required
 def get_profile(id):
 	user = get_user(id)
-	if user != [] and id == current_user.id:
+	if user and user != [] and id == current_user.id:
 		return render_template('profile.html', user=current_user)
 	elif user != []:
 		return render_template('profile.html', user=user)

@@ -4,11 +4,13 @@ import random
 import hashlib
 import subprocess
 import time
+import json
 import secrets
 
 from models import db_session
 from models.users import User
 from models.tests import Test
+from models.forums import Forum
 
 db_session.global_init('database.db')
 
@@ -35,6 +37,7 @@ def create_user(id, email, token, password):
 	session = db_session.create_session()
 	user = User(
 		id=id,
+		name="Живой динозавр №" + str(id),
 		email=email,
 		token=generate_token(),
 		hash_password=hash_password(password),
@@ -53,6 +56,7 @@ def get_user(id):
 			if str(user.id) == str(id):
 				user_as_dict = User(
 					id=user.id,
+					name=user.name,
 					email=user.email,
 					token=user.token,
 					hash_password=user.hash_password,
@@ -62,6 +66,91 @@ def get_user(id):
 				return user_as_dict
 		else:
 			return
+
+def create_forum(id, name, title, lesson, quest, result, userid):
+	session = db_session.create_session()
+	forum = Forum(
+        id=id,
+        name=name,
+        title=title,
+        lesson=lesson,
+        quest=quest,
+        results='[{}]',
+        user=userid
+	)
+	session.add(forum)
+	session.commit()
+
+
+def commit_forum(id, id2, answer, name):
+	session = db_session.create_session()
+	forum_all = session.query(Forum).all()
+
+	for forum in forum_all:
+		if (id):
+			if str(forum.id) == str(id):
+				results = json.loads(forum.results)
+				res = {
+					'id': id2,
+					'name': name,
+					'answer': answer
+				}
+				print(res)
+				results.append(res)
+				print(results)
+				forum.results = str(json.dumps(results))
+
+	session.commit()
+
+def get_forum(id):
+	session = db_session.create_session()
+	forum_all = session.query(Forum).all()
+
+	for forum in forum_all:
+		if (id):
+			if str(forum.id) == str(id):
+				forum_as_dict = Forum(
+					id=forum.id,
+					name=forum.name,
+					title=forum.title,
+					lesson=forum.lesson,
+					quest=forum.quest,
+					results=json.loads(forum.results),
+					user=forum.user
+				)
+				return forum_as_dict
+		else:
+			return
+
+def get_forums():
+	session = db_session.create_session()
+	forum_all = session.query(Forum).all()
+	num = 0
+	forum_list = []
+
+	for forum in forum_all:
+		forum_as_dict = {
+			'id': forum.id,
+			'name': forum.name,
+			'title': forum.title,
+			'lesson': forum.lesson,
+			'quest': forum.quest,
+			'results': len(json.loads(forum.results)),
+			'user': forum.user
+		}
+		forum_list.append(forum_as_dict)
+
+	num = len(forum_list) - 1
+	a = 0
+	new_list = []
+
+	for i in range(0, 10):
+		if a > num:
+			return new_list
+		new_list.append(forum_list[num-i])
+		a += 1
+
+	return new_list
 
 def check_pass(login, password):
 	session = db_session.create_session()

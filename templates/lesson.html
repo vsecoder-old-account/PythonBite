@@ -260,7 +260,7 @@ h1 {
   </div>
   <div class="menu">
     {% if current_user.is_authenticated %}
-      <a href="/profile/{{ current_user.id }}">{{ current_user.email }}</a>
+      <a href="/profile/{{ current_user.id }}">{{ current_user.name }}</a>
     {% else %}
       <a href="/login">Login</a>
     {% endif %}
@@ -404,13 +404,13 @@ h1 {
           if (result == output) {
             $("#result").html('>>> Input: ' + input + '<br>>>> Output: ' + result + '<br>>>> Memory: ' + data.memory + 'MB' + '<br>Success!!!');
             document.body.querySelector('.say').style.display = 'block';
-            document.body.querySelector('#result').style.height = '74%';
+            document.body.querySelector('#result').style.height = '80%';
             document.body.querySelector('#btn2').style.background = '#4eb543';
             test = true;
           } else if (output == '*') {
             $("#result").html('>>> Result: ' + result);
             document.body.querySelector('.say').style.display = 'block';
-            document.body.querySelector('#result').style.height = '74%';
+            document.body.querySelector('#result').style.height = '80%';
             document.body.querySelector('#btn2').style.background = '#4eb543';
             test = true;
           } else {

@@ -1,0 +1,164 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Форум · Python Bite</title>
+  <link href="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" rel="icon" type="image/png" />
+</head>
+<body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
+* {
+  box-sizing: border-box;
+}
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+
+td, th {
+  text-align: left;
+  padding: 24px 5px;
+}
+
+th {
+  justify-content: center;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f4f6 !important;
+}
+
+.forum:hover {
+  background-color: #fef2e0 !important;
+}
+.container {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.pc {
+  display: none;
+}
+header {
+  border-bottom: solid #e9ecee;
+  padding-bottom: 5px;
+}
+.tablehead {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  font-size: 14px;
+}
+
+a img {
+  width: 40px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+a {
+  text-decoration: none;
+  color: #8e9091;
+}
+.logo img {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  text-align: center;
+  padding-top: 5px;
+  border-top: solid 1px #e9ecee;
+}
+
+.logo, .menu {
+  display: inline-block;
+  width: 49%;
+  vertical-align: middle;
+  cursor: pointer;
+  align-items: center;
+}
+.menu {
+  text-align: end;
+}
+
+.mobile img {
+  width: 50px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+.forum {
+  cursor: pointer;
+}
+
+.add {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 780px) {
+  .mobile {
+    display: none;
+  }
+  .pc {
+    display: inline;
+    text-align: center;
+    max-width: 50px;
+    display: block;
+    padding-top: 4px;
+    margin-top: 4px;
+    border-top: solid 1px #e9ecee;
+  }
+  .center {
+    text-align: center;
+  }
+}
+</style>
+<header>
+  <div class="logo">
+    <a href="/"><img src="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png" width="30px">«PythonBite»</a>
+  </div>
+  <div class="menu">
+    {% if current_user.is_authenticated %}
+      <a href="/profile/{{ current_user.id }}"><img src="https://source.boringavatars.com/beam/120/{{ current_user.id }}?colors=8B8B8B,5C5C5C,2A2829,4E556A,B6B6B6">{{ current_user.name }}</a>
+      <a href="/t/create"><img src="../../static/img/add.png" class="add"></a>
+    {% else %}
+      <a href="/login">Login</a>
+    {% endif %}
+  </div>
+</header>
+<main>
+  <div class="container">
+    <table>
+      <tr class="tablehead">
+        <th>Название</th>
+        <th class="mobile">Категория</th>
+        <th class="pc">Урок/Ответов</th>
+        <th class="mobile">Задал</th>
+        <th class="mobile">Ответов</th>
+      </tr>
+      {% for el in quests %}
+        <tr class="forum" onclick="window.location.pathname = '/f/{{ el.id }}'">
+          <td>{{ el.title }}</td>
+          <td class="center"><span>{{ el.lesson }}</span><span class="pc">{{ el.results }}</span></td>
+          <td class="mobile"><img src="https://source.boringavatars.com/beam/120/{{ el.user }}?colors=8B8B8B,5C5C5C,2A2829,4E556A,B6B6B6">{{ el.name }}</td>
+          <td class="mobile">{{ el.results }}</td>
+        </tr></a>
+      {% endfor %}
+    </table>
+  </div>
+</main>
+<footer>
+  <a href="https://t.me/python_bite">
+    <svg class="tg" width="24" height="24" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M 23.326 28.341 C 23.121 28.341 22.919 28.28 22.743 28.163 L 16.144 23.686 L 12.605 26.233 C 12.013 26.658 11.179 26.359 10.992 25.654 L 9.217 18.921 L 2.866 16.491 C 2.119 16.206 1.963 15.218 2.584 14.715 C 2.664 14.648 2.756 14.594 2.853 14.557 L 26.998 4.948 C 27.734 4.636 28.533 5.239 28.436 6.033 C 28.431 6.059 28.428 6.087 28.422 6.114 L 24.348 27.498 C 24.254 27.986 23.826 28.341 23.326 28.341 Z M 16.723 21.568 L 22.604 25.557 L 25.773 8.917 L 14.319 19.938 L 16.696 21.55 C 16.706 21.556 16.714 21.562 16.723 21.568 Z M 11.83 20.683 L 12.619 23.664 L 14.313 22.444 L 12.092 20.937 C 11.991 20.87 11.902 20.782 11.83 20.683 Z M 6.096 15.501 L 10.456 17.169 C 10.768 17.289 11.003 17.551 11.089 17.874 L 11.642 19.97 C 11.668 19.727 11.78 19.5 11.956 19.329 L 22.868 8.828 L 6.096 15.501 Z"></path></svg>
+  </a>
+  <p>© «PythonBite» 2021</p>
+</footer>
+</body>
+</html>

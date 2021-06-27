@@ -1,5 +1,5 @@
 <html>
-<head><script>if (document.location.protocol === "http:" && window.location.search !== "?nossl") document.location.href = document.location.href.replace(/^http:/, "https:");</script>
+<head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Python Bite</title>
@@ -153,7 +153,7 @@ h1 {
         <!--<span>
           <svg id="user" viewBox="0 0 16 16"><circle cx="8" cy="7.7" r="2.3" transform="translate(0 -3)"></circle><path d="M13 12v-1c0-1.7-1.3-3-3-3H6c-1.7 0-3 1.3-3 3v1h10z"></path></svg>
         </span>-->
-        {{ current_user.email }}
+        {{ current_user.name }}
       </a>
     {% else %}
       <a href="/login">
@@ -183,6 +183,11 @@ h1 {
       <img src="/static/img/icon_dino.jpg">
       <h2>Учиться весело</h2>
       <p>Интересные, наглядные и затягивающие уроки, интерактивные интерфейсы - всё для обучения с удовольствием. И конечно же, инструктор Дино. Заскучать не получится.</p>
+    </div>
+    <div>
+      <img src="https://img.icons8.com/pastel-glyph/452/test-tube--v2.png">
+      <h2>Свой форум</h2>
+      <p>У нас есть форум для вопросов по программированию, урокам и тд, на тот случай если что-то будет не понятно!</p>
     </div>
   </div>
 </div>
