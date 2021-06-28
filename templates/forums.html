@@ -128,7 +128,6 @@ main {
     display: block;
     padding-top: 4px;
     margin-top: 4px;
-    border-top: solid 1px #e9ecee;
   }
   .center {
     text-align: center;
@@ -161,7 +160,7 @@ main {
       {% for el in quests %}
         <tr class="forum" onclick="window.location.pathname = '/f/{{ el.id }}'">
           <td>{{ el.title }}</td>
-          <td class="center"><span style="margin-left: 20px;">{{ el.lesson }}</span><span class="pc">{{ el.results }}</span></td>
+          <td class="center"><span style="margin-left: -70px;">{{ el.lesson }}</span><span class="pc">{{ el.results }}</span></td>
           <td class="mobile"><img src="https://source.boringavatars.com/beam/120/{{ el.user }}?colors=8B8B8B,5C5C5C,2A2829,4E556A,B6B6B6">{{ el.name }}</td>
           <td class="mobile">
             {% if el.results %}
