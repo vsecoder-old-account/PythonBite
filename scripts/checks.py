@@ -135,7 +135,7 @@ def get_forums():
 			'title': forum.title,
 			'lesson': forum.lesson,
 			'quest': forum.quest,
-			'results': len(json.loads(forum.results)),
+			'results': len(json.loads(forum.results)) - 1,
 			'user': forum.user
 		}
 		forum_list.append(forum_as_dict)

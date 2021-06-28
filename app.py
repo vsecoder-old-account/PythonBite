@@ -74,7 +74,6 @@ def forum_create():
 		answer = request.form.get('answer')
 	
 	if id and id2 and text:
-		print(1)
 		commit_forum(id, id2, text, name)
 
 	return redirect(f"https://pythonbite.herokuapp.com/f/{id}", code=200)

@@ -10,6 +10,8 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
 * {
   box-sizing: border-box;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
 }
 form {
   font-family: 'JetBrains Mono', monospace;
@@ -76,7 +78,7 @@ footer {
 
 .logo, .menu {
   display: inline-block;
-  width: 49%;
+  width: 48%;
   vertical-align: middle;
   cursor: pointer;
   align-items: center;
@@ -101,6 +103,10 @@ textarea, input {
 }
 textarea {
   min-height: 300px;
+}
+
+main {
+  min-height: 85%;
 }
 
 @media screen and (max-width: 780px) {
@@ -134,9 +140,9 @@ textarea {
     <form action="/t/commit">
       <input type="text" name="userid" style="position: fixed;top: -9999999px;" value="{{ current_user.id }}">
       <input type="text" name="name" style="position: fixed;top: -9999999px;" value="{{ current_user.name }}">
-      <input type="text" name="title" placeholder="Заголовок">
-      <input type="number" name="lesson" placeholder="Номер урока(число)" min="1" max="100">
-      <textarea type="text" name="quest" placeholder="Сам вопрос..."></textarea>
+      <input type="text" name="title" placeholder="Заголовок" required>
+      <input type="text" name="lesson" placeholder="Тема" required>
+      <textarea type="text" name="quest" placeholder="Сам вопрос..." required></textarea>
       <input type="submit" value="->">
     </form>
   {% else %}

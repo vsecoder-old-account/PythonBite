@@ -10,6 +10,8 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100&display=swap');
 * {
   box-sizing: border-box;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
 }
 table {
   font-family: arial, sans-serif;
@@ -39,7 +41,7 @@ tr:nth-child(even) {
   max-width: 900px;
   margin: 0 auto;
 }
-.pc {
+.pc, .pc1 {
   display: none;
 }
 header {
@@ -79,7 +81,7 @@ footer {
 
 .logo, .menu {
   display: inline-block;
-  width: 49%;
+  width: 48%;
   vertical-align: middle;
   cursor: pointer;
   align-items: center;
@@ -102,11 +104,24 @@ footer {
   margin-left: 10px;
 }
 
+main {
+  min-height: 85%;
+}
+
 @media screen and (max-width: 780px) {
   .mobile {
     display: none;
   }
   .pc {
+    display: inline;
+    text-align: center;
+    max-width: 50px;
+    display: block;
+    padding-top: 4px;
+    margin-top: 4px;
+    border-top: solid 1px #e9ecee;
+  }
+  .pc1 {
     display: inline;
     text-align: center;
     max-width: 50px;
@@ -138,17 +153,23 @@ footer {
     <table>
       <tr class="tablehead">
         <th>Название</th>
-        <th class="mobile">Категория</th>
-        <th class="pc">Урок/Ответов</th>
+        <th class="mobile">Тема</th>
+        <th class="pc1">Тема/Ответов</th>
         <th class="mobile">Задал</th>
         <th class="mobile">Ответов</th>
       </tr>
       {% for el in quests %}
         <tr class="forum" onclick="window.location.pathname = '/f/{{ el.id }}'">
           <td>{{ el.title }}</td>
-          <td class="center"><span>{{ el.lesson }}</span><span class="pc">{{ el.results }}</span></td>
+          <td class="center"><span style="margin-left: 20px;">{{ el.lesson }}</span><span class="pc">{{ el.results }}</span></td>
           <td class="mobile"><img src="https://source.boringavatars.com/beam/120/{{ el.user }}?colors=8B8B8B,5C5C5C,2A2829,4E556A,B6B6B6">{{ el.name }}</td>
-          <td class="mobile">{{ el.results }}</td>
+          <td class="mobile">
+            {% if el.results %}
+              {{ el.results }}
+            {% else %}
+              0
+            {% endif %}
+          </td>
         </tr></a>
       {% endfor %}
     </table>
